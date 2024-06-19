@@ -1,3 +1,4 @@
+using Wardrobe.BBualdo;
 using Wardrobe.BBualdo.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<IWardrobeService, WardrobeService>();
 
 var app = builder.Build();
 
