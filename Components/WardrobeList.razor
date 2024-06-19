@@ -1,0 +1,28 @@
+﻿@using Models
+@using Services
+@inject IWardrobeService wardrobeService;
+
+@if (Clothes.Count == 0)
+{
+  <p>Your wardrobe is empty.</p>
+}
+else
+{
+  @foreach (var cloth in Clothes)
+  {
+    <div>
+      <img alt="" src=@cloth.ImagePath class="cloth-image img-thumbnail" />
+      <p>@cloth.Color @cloth.Brand @cloth.Name</p>
+      <p>Size: @cloth.Size</p>
+    </div>
+  }
+}
+
+@code {
+  public List<Cloth> Clothes = [];
+
+  protected override void OnInitialized()
+  {
+    Clothes = wardrobeService.GetClothes();
+  }
+}

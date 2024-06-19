@@ -1,6 +1,6 @@
 ﻿using Wardrobe.BBualdo.Models;
 
-namespace Wardrobe.BBualdo;
+namespace Wardrobe.BBualdo.Services;
 
 public interface IWardrobeService
 {

@@ -6,4 +6,20 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Content Remove="Components\WardrobeList.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Components\WardrobeList.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Components\WardrobeList.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="Components\WardrobeList.razor" />
+    </ItemGroup>
+
 </Project>
