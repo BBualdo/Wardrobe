@@ -1,4 +1,14 @@
-﻿.cloth-image {
+﻿.cloth__container {
+  align-items: center;
+  display: flex;
+  gap: 20px;
+}
+
+.cloth-image {
   height: 100px;
   width: 100px;
+}
+
+.cloth-info {
+  font-size: 32px;
 }

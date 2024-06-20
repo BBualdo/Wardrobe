@@ -10,10 +10,10 @@ else
 {
   @foreach (var cloth in Clothes)
   {
-    <div class="flex-row d-flex align-items-center gap-4">
-      <img alt="" src=@cloth.ImagePath class="cloth-image img-thumbnail" />
-      <div class="text-black">
-        <p class="text-8">@cloth.Color @cloth.Brand @cloth.Name</p>
+    <div class="cloth__container">
+      <img alt="" src=@cloth.ImagePath class="cloth-image" />
+      <div>
+        <p class="cloth-info">@cloth.Color @cloth.Brand @cloth.Name</p>
         <p>Size: @cloth.Size</p>
       </div>
     </div>
