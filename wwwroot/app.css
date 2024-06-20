@@ -1,3 +1,13 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
 html, body {
   background: rgb(96,0,208);
   background: linear-gradient(340deg, rgba(96,0,208,1) 0%, rgba(0,0,0,1) 100%);
@@ -7,12 +17,8 @@ html, body {
 }
 
 main {
-  height: 100vh;
-}
-
-.cloth-image {
-  height: 100px;
-  width: 100px;
+  height: 100%;
+  padding: 20px;
 }
 
 .text-8 {

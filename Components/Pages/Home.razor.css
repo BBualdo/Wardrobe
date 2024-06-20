@@ -1,0 +1,25 @@
+﻿.wardrobe__container {
+  border: 2px solid white;
+}
+
+.container__header {
+  background-color: #300560;
+  padding: 20px;
+}
+
+.btn-custom {
+  border-radius: 8px;
+  padding: 6px 16px;
+}
+
+.btn-primary-custom {
+  background-color: #bd82ff;
+  border: 2px solid white;
+  color: white;
+  font-weight: bold;
+  transition: background-color .2s;
+}
+
+.btn-primary-custom:hover {
+  background-color: #7800ff;
+}
