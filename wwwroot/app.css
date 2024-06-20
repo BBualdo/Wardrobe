@@ -2,11 +2,19 @@ html, body {
   background: rgb(96,0,208);
   background: linear-gradient(340deg, rgba(96,0,208,1) 0%, rgba(0,0,0,1) 100%);
   background-repeat: no-repeat;
-  height: 100%;
+  min-height: 100vh;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+main {
+  height: 100vh;
 }
 
 .cloth-image {
   height: 100px;
   width: 100px;
+}
+
+.text-8 {
+  font-size: 32px;
 }
