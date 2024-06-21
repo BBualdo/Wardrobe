@@ -1,5 +1,6 @@
 ﻿@using Models
 @using Services
+@using Wardrobe.BBualdo.Enums
 @inject IWardrobeService wardrobeService;
 
 @if (Clothes.Count == 0)
@@ -11,18 +12,111 @@ else
   @foreach (var cloth in Clothes)
   {
     <div class="cloth__container">
-      <img alt="" src=@cloth.ImagePath class="cloth-image" />
-      <div>
-        <p class="cloth-info">@cloth.Color @cloth.Brand @cloth.Name</p>
-        <p>Size: @cloth.Size</p>
+      <div class="cloth__details">
+        <img alt="" src=@cloth.ImagePath class="cloth-image"/>
+        <div>
+          <p class="cloth-info">@cloth.Color @cloth.Brand @cloth.Name</p>
+          <p>Size: @cloth.Size</p>
+        </div>
+      </div>
+      <div class="action__buttons">
+        <button @onclick="() => OpenEditDialog(cloth)" class="btn btn-secondary">Edit</button>
+        <button @onclick="() => OpenDeleteDialog(cloth)" class="btn btn-warning">Delete</button>
       </div>
     </div>
   }
 }
 
-@code {
-  public List<Cloth> Clothes = [];
+@if (IsEditDialogOpened)
+{
+  <Dialog Title="Edit Cloth" IsOpened="IsEditDialogOpened" CloseButtonClicked="() => 
+          { 
+            IsEditDialogOpened = false; 
+            SelectedCloth = null; 
+          }">
+    <DialogBody>
+      <EditForm Model="SelectedCloth" OnSubmit="UpdateCloth" FormName="EditCloth" class="form">
+        <div>
+          <label for="name">Name</label>
+          <InputText id="name" @bind-Value="SelectedCloth!.Name"/>
+        </div>
+        <div>
+          <label for="category">Category</label>
+          <InputSelect id="category" @bind-Value="SelectedCloth!.Category">
+            @foreach (var category in Enum.GetValues<Categories>())
+            {
+              <option value="@category">@category</option>
+            }
+          </InputSelect>
+        </div>
+        <div>
+          <label for="size">Size</label>
+          <InputSelect id="size" @bind-Value="SelectedCloth!.Size">
+            @foreach (var size in Enum.GetValues<Sizes>())
+            {
+              <option value="@size">@size</option>
+            }
+          </InputSelect>
+        </div>
+        <div>
+          <label for="color">Color</label>
+          <InputText id="color" @bind-Value="SelectedCloth!.Color" />
+        </div>
+        <div>
+          <label for="brand">Brand</label>
+          <InputText id="brand" @bind-Value="SelectedCloth!.Brand" />
+        </div>
+        <div>
+          <label for="image">Image</label>
+          <InputFile id="image" @bind-Value="SelectedCloth.ImagePath" />
+        </div>
+        
+        <button class="btn btn-primary">Save</button>
+        <button @onclick="() => IsEditDialogOpened = false" class="btn btn-secondary">Cancel</button>
+      </EditForm>
+    </DialogBody>
+  </Dialog>
+}
+@if (IsDeleteDialogOpened)
+{
+  <Dialog Title="Delete Cloth" IsOpened="IsDeleteDialogOpened" CloseButtonClicked="() => 
+          { 
+            IsDeleteDialogOpened = false; 
+            SelectedCloth = null; 
+          }"
+          >
+    <DialogBody>
+      <p>Are you sure you want to delete this cloth?</p>
+      <button class="btn btn-warning">Delete</button>
+      <button class="btn btn-secondary">Cancel</button>
+    </DialogBody>
+  </Dialog>
+}
 
+@code {
+  private List<Cloth> Clothes = [];
+  private bool IsEditDialogOpened = false;
+  private bool IsDeleteDialogOpened = false;
+  public Cloth? SelectedCloth { get; set; }
+
+  private void OpenEditDialog(Cloth cloth)
+  {
+    IsEditDialogOpened = true;
+    SelectedCloth = cloth;
+  }
+
+  private void OpenDeleteDialog(Cloth cloth)
+  {
+    IsDeleteDialogOpened = true;
+    SelectedCloth = cloth;
+  }
+
+  private void UpdateCloth()
+  {
+    wardrobeService.UpdateCloth(SelectedCloth!);
+    IsEditDialogOpened = false;
+  }
+  
   protected override void OnInitialized()
   {
     Clothes = wardrobeService.GetClothes();

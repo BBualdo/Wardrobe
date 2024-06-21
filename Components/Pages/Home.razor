@@ -12,7 +12,7 @@
   </div>
 </div>
 
-<Dialog Title="Add Cloth" IsOpened="displayDialog" CloseButtonClicked="() => displayDialog = false">
+<Dialog Title="Add Cloth" IsOpened="DisplayDialog" CloseButtonClicked="() => DisplayDialog = false">
   <DialogBody>
       <p>Form for adding Cloth goes here...</p>
       <button class="btn btn-primary">Add</button>
@@ -20,10 +20,10 @@
 </Dialog>
 
 @code {
-  public bool displayDialog = false;
+  private bool DisplayDialog;
 
-  public void OpenDialog()
+  private void OpenDialog()
   {
-    displayDialog = true;
+    DisplayDialog = true;
   }
 }
