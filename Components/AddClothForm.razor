@@ -1,0 +1,70 @@
+@using Wardrobe.BBualdo.Enums
+@using Wardrobe.BBualdo.Models
+@using Wardrobe.BBualdo.Services
+@inject IWardrobeService wardrobeService
+
+<EditForm Model="NewCloth" OnSubmit="AddCloth" FormName="EditCloth" class="form">
+    <div>
+        <label for="name">Name</label>
+        <InputText id="name" @bind-Value="NewCloth!.Name"/>
+    </div>
+    <div>
+        <label for="category">Category</label>
+        <InputSelect id="category" @bind-Value="NewCloth!.Category">
+            @foreach (var category in Enum.GetValues<Categories>())
+            {
+                <option value="@category">@category</option>
+            }
+        </InputSelect>
+    </div>
+    <div>
+        <label for="size">Size</label>
+        <InputSelect id="size" @bind-Value="NewCloth!.Size">
+            @foreach (var size in Enum.GetValues<Sizes>())
+            {
+                <option value="@size">@size</option>
+            }
+        </InputSelect>
+    </div>
+    <div>
+        <label for="color">Color</label>
+        <InputText id="color" @bind-Value="NewCloth!.Color"/>
+    </div>
+    <div>
+        <label for="brand">Brand</label>
+        <InputText id="brand" @bind-Value="NewCloth!.Brand"/>
+    </div>
+    <div>
+        <label for="image">Image</label>
+        <InputFile id="image" @bind-Value="NewCloth.ImagePath"/>
+    </div>
+
+    <button @onclick="AddCloth" class="btn btn-primary">Add</button>
+    <button @onclick="CloseDialog" class="btn btn-secondary">Cancel</button>
+</EditForm>
+
+@code {
+    [Parameter] public EventCallback CloseButtonClicked { get; set; }
+
+    public NewClothDto NewCloth { get; set; } = new()
+    {
+        Name = string.Empty,
+        Brand = string.Empty,
+        Category = Categories.Top.ToString(),
+        Color = string.Empty,
+        Size = Sizes.M.ToString(),
+        ImagePath = string.Empty
+    };
+
+    private void CloseDialog()
+    {
+        CloseButtonClicked.InvokeAsync();
+    }
+
+    private void AddCloth()
+    {
+        wardrobeService.AddCloth(NewCloth);
+        CloseDialog();
+    }
+
+}

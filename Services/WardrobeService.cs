@@ -63,8 +63,19 @@ public class WardrobeService:IWardrobeService
         return _clothes;
     }
 
-    public void AddCloth(Cloth cloth)
+    public void AddCloth(NewClothDto newCloth)
     {
+        Cloth cloth = new()
+        {
+            Id = GetClothes().Count + 1,
+            Name = newCloth.Name,
+            Category = newCloth.Category,
+            Color = newCloth.Color,
+            Brand = newCloth.Brand,
+            Size = newCloth.Size,
+            ImagePath = newCloth.ImagePath
+        };
+        
         _clothes.Add(cloth);
     }
 
