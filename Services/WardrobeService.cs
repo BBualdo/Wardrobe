@@ -74,9 +74,9 @@ public class WardrobeService:IWardrobeService
         if (index != -1) _clothes[index] = cloth;
     }
 
-    public void DeleteCloth(int id)
+    public void DeleteCloth(Cloth cloth)
     {
-        var clothToRemove = _clothes.First(c => c.Id == id);
+        var clothToRemove = _clothes.First(c => c.Id == cloth.Id);
         _clothes.Remove(clothToRemove);
     }
 }
