@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using Wardrobe.BBualdo.Models
+@using Wardrobe.BBualdo.Services
+@inject IWardrobeService wardrobeService;
 @rendermode InteractiveServer
 
 <PageTitle>Wardrobe Inventory</PageTitle>
@@ -8,7 +11,7 @@
     <button @onclick="OpenDialog" class="btn btn-primary">Add Cloth</button>
   </div>
   <div class="wardrobe__container">
-    <WardrobeList />
+    <WardrobeList Clothes="Clothes" />
   </div>
 </div>
 
@@ -20,9 +23,15 @@
 
 @code {
   private bool DisplayDialog;
+  private List<Cloth> Clothes { get; set; } = [];
 
   private void OpenDialog()
   {
     DisplayDialog = true;
+  }
+  
+  protected override void OnInitialized()
+  {
+    Clothes = wardrobeService.GetClothes();
   }
 }

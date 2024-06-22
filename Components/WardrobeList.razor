@@ -1,7 +1,5 @@
 ﻿@using Models
 @using Services
-@using Wardrobe.BBualdo.Enums
-@inject IWardrobeService wardrobeService;
 
 @if (Clothes.Count == 0)
 {
@@ -50,7 +48,7 @@ else
 
 
 @code {
-  private List<Cloth> Clothes = [];
+  [Parameter] public List<Cloth> Clothes { get; set; }
   private bool IsEditDialogOpened = false;
   private bool IsDeleteDialogOpened = false;
   public Cloth? SelectedCloth { get; set; }
@@ -65,10 +63,5 @@ else
   {
     IsDeleteDialogOpened = true;
     SelectedCloth = cloth;
-  }
-  
-  protected override void OnInitialized()
-  {
-    Clothes = wardrobeService.GetClothes();
   }
 }
