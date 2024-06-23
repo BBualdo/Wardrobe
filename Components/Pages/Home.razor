@@ -29,9 +29,9 @@
   {
     DisplayDialog = true;
   }
-  
-  protected override void OnInitialized()
+
+  protected override async Task OnInitializedAsync()
   {
-    Clothes = wardrobeService.GetClothes();
+    Clothes = await wardrobeService.GetClothes();
   }
 }
