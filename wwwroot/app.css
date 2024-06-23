@@ -68,7 +68,27 @@ main {
 }
 
 .form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.form-fields {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.action__buttons {
+  align-items: center;
+  display: flex;
+  gap: 12px;
 }

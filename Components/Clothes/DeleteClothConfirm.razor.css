@@ -13,9 +13,3 @@ p > span {
     color: red;
     font-weight: bold;
 }
-
-.buttons {
-    align-items: center;
-    display: flex;
-    gap: 12px;
-}
