@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Wardrobe.BBualdo.Components;
+using Wardrobe.BBualdo.Data;
 using Wardrobe.BBualdo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddScoped<IWardrobeService, WardrobeService>();
 
 var app = builder.Build();
