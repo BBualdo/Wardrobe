@@ -17,13 +17,13 @@
 
 <Dialog Title="Add Cloth" IsOpened="DisplayDialog" CloseButtonClicked="() => DisplayDialog = false">
   <DialogBody>
-    <AddClothForm CloseButtonClicked="() => DisplayDialog = false" />
+    <AddClothForm CloseButtonClicked="() => DisplayDialog = false" OnClothAdd="() => RefreshClothes()" />
   </DialogBody>
 </Dialog>
 
 @code {
   private bool DisplayDialog;
-  private List<Cloth> Clothes { get; set; } = [];
+  public List<Cloth>? Clothes { get; set; }
 
   private void OpenDialog()
   {
@@ -31,6 +31,11 @@
   }
 
   protected override async Task OnInitializedAsync()
+  {
+    Clothes = await wardrobeService.GetClothes();
+  }
+
+  private async Task RefreshClothes()
   {
     Clothes = await wardrobeService.GetClothes();
   }

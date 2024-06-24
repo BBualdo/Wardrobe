@@ -3,18 +3,20 @@
 @using Wardrobe.BBualdo.Services
 @inject IWardrobeService wardrobeService
 
-<EditForm Model="SelectedCloth" OnSubmit="UpdateCloth" FormName="EditCloth" class="form">
+<EditForm Model="SelectedCloth" OnValidSubmit="UpdateCloth" FormName="EditCloth" class="form">
+    <DataAnnotationsValidator />
     <div class="form-fields">
         <div class="form-field">
             <label for="name">Name</label>
             <InputText id="name" @bind-Value="SelectedCloth!.Name"/>
+            <ValidationMessage For="() => SelectedCloth!.Name" class="validation-message" />
         </div>
         <div class="form-field">
             <label for="category">Category</label>
             <InputSelect id="category" @bind-Value="SelectedCloth!.Category">
                 @foreach (var category in Enum.GetValues<Categories>())
                 {
-                <option value="@category">@category</option>
+                    <option value="@category">@category</option>
                 }
             </InputSelect>
         </div>
@@ -23,17 +25,19 @@
             <InputSelect id="size" @bind-Value="SelectedCloth!.Size">
                 @foreach (var size in Enum.GetValues<Sizes>())
                 {
-                <option value="@size">@size</option>
+                    <option value="@size">@size</option>
                 }
             </InputSelect>
         </div>
         <div class="form-field">
             <label for="color">Color</label>
             <InputText id="color" @bind-Value="SelectedCloth!.Color"/>
+            <ValidationMessage For="() => SelectedCloth!.Color" class="validation-message" />
         </div>
         <div class="form-field">
             <label for="brand">Brand</label>
             <InputText id="brand" @bind-Value="SelectedCloth!.Brand"/>
+            <ValidationMessage For="() => SelectedCloth!.Brand" class="validation-message" />
         </div>
         <div class="form-field">
             <label for="image">Image</label>
@@ -44,7 +48,7 @@
         <button @onclick="CloseDialog" class="btn btn-secondary">Cancel</button>
         <button class="btn btn-primary">Save</button>
     </div>
-    
+
 </EditForm>
 
 @code {

@@ -92,3 +92,7 @@ main {
   display: flex;
   gap: 12px;
 }
+
+.validation-message {
+  color: red;
+}

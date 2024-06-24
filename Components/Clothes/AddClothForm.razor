@@ -3,18 +3,20 @@
 @using Wardrobe.BBualdo.Services
 @inject IWardrobeService wardrobeService
 
-<EditForm Model="NewCloth" OnSubmit="AddCloth" FormName="EditCloth" class="form">
+<EditForm Model="NewCloth" OnValidSubmit="AddCloth" FormName="EditCloth" class="form">
+    <DataAnnotationsValidator />
     <div class="form-fields">
         <div class="form-field">
             <label for="name">Name</label>
             <InputText id="name" @bind-Value="NewCloth!.Name"/>
+            <ValidationMessage For="() => NewCloth.Name" class="validation-message" />
         </div>
         <div class="form-field">
             <label for="category">Category</label>
             <InputSelect id="category" @bind-Value="NewCloth!.Category">
                 @foreach (var category in Enum.GetValues<Categories>())
                 {
-                <option value="@category">@category</option>
+                    <option value="@category">@category</option>
                 }
             </InputSelect>
         </div>
@@ -23,17 +25,19 @@
             <InputSelect id="size" @bind-Value="NewCloth!.Size">
                 @foreach (var size in Enum.GetValues<Sizes>())
                 {
-                <option value="@size">@size</option>
+                    <option value="@size">@size</option>
                 }
             </InputSelect>
         </div>
         <div class="form-field">
             <label for="color">Color</label>
             <InputText id="color" @bind-Value="NewCloth!.Color"/>
+            <ValidationMessage For="() => NewCloth.Color" class="validation-message" />
         </div>
         <div class="form-field">
             <label for="brand">Brand</label>
             <InputText id="brand" @bind-Value="NewCloth!.Brand"/>
+            <ValidationMessage For="() => NewCloth.Brand" class="validation-message" />
         </div>
         <div class="form-field">
             <label for="image">Image</label>
@@ -41,13 +45,14 @@
         </div>
     </div>
     <div class="action__buttons">
-        <button @onclick="CloseDialog" class="btn btn-secondary">Cancel</button>
-        <button @onclick="AddCloth" class="btn btn-primary">Add</button>
+        <button type="button" @onclick="CloseDialog" class="btn btn-secondary">Cancel</button>
+        <button class="btn btn-primary">Add</button>
     </div>
 </EditForm>
 
 @code {
     [Parameter] public EventCallback CloseButtonClicked { get; set; }
+    [Parameter] public EventCallback OnClothAdd { get; set; }
 
     public NewClothDto NewCloth { get; set; } = new()
     {
@@ -67,6 +72,7 @@
     private void AddCloth()
     {
         wardrobeService.AddCloth(NewCloth);
+        OnClothAdd.InvokeAsync();
         CloseDialog();
     }
 
