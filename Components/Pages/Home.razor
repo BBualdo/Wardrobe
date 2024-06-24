@@ -17,7 +17,7 @@
 
 <Dialog Title="Add Cloth" IsOpened="DisplayDialog" CloseButtonClicked="() => DisplayDialog = false">
   <DialogBody>
-    <AddClothForm CloseButtonClicked="() => DisplayDialog = false" OnClothAdd="() => RefreshClothes()" />
+    <AddClothForm CloseButtonClicked="() => DisplayDialog = false" OnClothAdd="RefreshClothes" />
   </DialogBody>
 </Dialog>
 

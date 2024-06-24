@@ -13,15 +13,17 @@
 @code {
     [Parameter] public Cloth? SelectedCloth { get; set; }
     [Parameter] public EventCallback CloseButtonClicked { get; set; }
+    [Parameter] public EventCallback OnClothDelete { get; set; }
 
     private void CloseDialog()
     {
         CloseButtonClicked.InvokeAsync();
     }
 
-    private void DeleteCloth()
+    private async Task DeleteCloth()
     {
-        wardrobeService.DeleteCloth(SelectedCloth!);
+        await wardrobeService.DeleteCloth(SelectedCloth!);
+        await OnClothDelete.InvokeAsync();
         CloseDialog();
     }
 

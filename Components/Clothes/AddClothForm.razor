@@ -69,11 +69,10 @@
         CloseButtonClicked.InvokeAsync();
     }
 
-    private void AddCloth()
+    private async Task AddCloth()
     {
-        wardrobeService.AddCloth(NewCloth);
-        OnClothAdd.InvokeAsync();
+        await wardrobeService.AddCloth(NewCloth);
+        await OnClothAdd.InvokeAsync();
         CloseDialog();
     }
-
 }

@@ -1,5 +1,6 @@
 ﻿@using Models
 @using Services
+@inject IWardrobeService wardrobeService;
 
 @if (Clothes != null)
 {
@@ -46,7 +47,7 @@
           }"
           >
     <DialogBody>
-      <DeleteClothConfirm SelectedCloth="SelectedCloth" CloseButtonClicked="() => IsDeleteDialogOpened = false" />
+      <DeleteClothConfirm SelectedCloth="SelectedCloth" CloseButtonClicked="() => IsDeleteDialogOpened = false" OnClothDelete="RefreshClothes" />
     </DialogBody>
   </Dialog>
 
@@ -67,5 +68,10 @@
   {
     IsDeleteDialogOpened = true;
     SelectedCloth = cloth;
+  }
+
+  private async Task RefreshClothes()
+  {
+    Clothes = await wardrobeService.GetClothes();
   }
 }
