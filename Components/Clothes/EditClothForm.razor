@@ -2,6 +2,7 @@
 @using Wardrobe.BBualdo.Models
 @using Wardrobe.BBualdo.Services
 @inject IWardrobeService wardrobeService
+@inject IFilesService filesService
 
 <EditForm Model="SelectedCloth" OnValidSubmit="UpdateCloth" FormName="EditCloth" class="form">
     <DataAnnotationsValidator />
@@ -41,7 +42,7 @@
         </div>
         <div class="form-field">
             <label for="image">Image</label>
-            <InputFile id="image" @bind-Value="SelectedCloth.ImagePath" class="input" />
+            <InputFile OnChange="LoadFile" id="image" @bind-Value="SelectedCloth.ImagePath" class="input" />
         </div>
     </div>
     <div class="action__buttons">
@@ -54,15 +55,23 @@
 @code {
     [Parameter] public Cloth? SelectedCloth { get; set; }
     [Parameter] public EventCallback CloseButtonClicked { get; set; }
-
+    private IBrowserFile? _file;
+    
     private void CloseDialog()
     {
         CloseButtonClicked.InvokeAsync();
     }
     
-    private void UpdateCloth()
+    private void LoadFile(InputFileChangeEventArgs e)
     {
-        wardrobeService.UpdateCloth(SelectedCloth!);
+        _file = e.File;
+    }
+    
+    private async Task UpdateCloth()
+    {
+        string relativePath = await filesService.CaptureFile(_file);
+        SelectedCloth!.ImagePath = relativePath;
+        await wardrobeService.UpdateCloth(SelectedCloth!);
         CloseDialog();
     }
 }

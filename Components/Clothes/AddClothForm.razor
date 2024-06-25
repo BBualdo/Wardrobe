@@ -43,15 +43,6 @@
         <div class="form-field">
             <label for="image">Image</label>
             <InputFile OnChange="LoadFile" id="image" @bind-Value="NewCloth.ImagePath" class="input" />
-            @* @if (filesService.Errors.Count > 1) *@
-            @* { *@
-            @*     <ul> *@
-            @*         @foreach (var error in filesService.Errors) *@
-            @*         { *@
-            @*         <li class="validation-message">@error</li> *@
-            @*         } *@
-            @*     </ul> *@
-            @* } *@
         </div>
     </div>
     <div class="action__buttons">
@@ -87,7 +78,6 @@
 
     private async Task AddCloth()
     {
-        // filesService.Errors.Clear();
         string relativePath = await filesService.CaptureFile(_file);
         NewCloth.ImagePath = relativePath;
         await wardrobeService.AddCloth(NewCloth);
