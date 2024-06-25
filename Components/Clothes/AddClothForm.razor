@@ -2,18 +2,19 @@
 @using Wardrobe.BBualdo.Models
 @using Wardrobe.BBualdo.Services
 @inject IWardrobeService wardrobeService
+@inject IFilesService filesService
 
 <EditForm Model="NewCloth" OnValidSubmit="AddCloth" FormName="EditCloth" class="form">
     <DataAnnotationsValidator />
     <div class="form-fields">
         <div class="form-field">
             <label for="name">Name</label>
-            <InputText id="name" @bind-Value="NewCloth!.Name"/>
+            <InputText id="name" @bind-Value="NewCloth!.Name" class="input" />
             <ValidationMessage For="() => NewCloth.Name" class="validation-message" />
         </div>
         <div class="form-field">
             <label for="category">Category</label>
-            <InputSelect id="category" @bind-Value="NewCloth!.Category">
+            <InputSelect id="category" @bind-Value="NewCloth!.Category" class="input" >
                 @foreach (var category in Enum.GetValues<Categories>())
                 {
                     <option value="@category">@category</option>
@@ -22,7 +23,7 @@
         </div>
         <div class="form-field">
             <label for="size">Size</label>
-            <InputSelect id="size" @bind-Value="NewCloth!.Size">
+            <InputSelect id="size" @bind-Value="NewCloth!.Size" class="input" >
                 @foreach (var size in Enum.GetValues<Sizes>())
                 {
                     <option value="@size">@size</option>
@@ -31,17 +32,26 @@
         </div>
         <div class="form-field">
             <label for="color">Color</label>
-            <InputText id="color" @bind-Value="NewCloth!.Color"/>
+            <InputText id="color" @bind-Value="NewCloth!.Color" class="input" />
             <ValidationMessage For="() => NewCloth.Color" class="validation-message" />
         </div>
         <div class="form-field">
             <label for="brand">Brand</label>
-            <InputText id="brand" @bind-Value="NewCloth!.Brand"/>
+            <InputText id="brand" @bind-Value="NewCloth!.Brand" class="input" />
             <ValidationMessage For="() => NewCloth.Brand" class="validation-message" />
         </div>
         <div class="form-field">
             <label for="image">Image</label>
-            <InputFile id="image" @bind-Value="NewCloth.ImagePath"/>
+            <InputFile OnChange="LoadFile" id="image" @bind-Value="NewCloth.ImagePath" class="input" />
+            @* @if (filesService.Errors.Count > 1) *@
+            @* { *@
+            @*     <ul> *@
+            @*         @foreach (var error in filesService.Errors) *@
+            @*         { *@
+            @*         <li class="validation-message">@error</li> *@
+            @*         } *@
+            @*     </ul> *@
+            @* } *@
         </div>
     </div>
     <div class="action__buttons">
@@ -53,6 +63,7 @@
 @code {
     [Parameter] public EventCallback CloseButtonClicked { get; set; }
     [Parameter] public EventCallback OnClothAdd { get; set; }
+    private IBrowserFile? _file;
 
     public NewClothDto NewCloth { get; set; } = new()
     {
@@ -64,6 +75,11 @@
         ImagePath = string.Empty
     };
 
+    private void LoadFile(InputFileChangeEventArgs e)
+    {
+        _file = e.File;
+    }
+
     private void CloseDialog()
     {
         CloseButtonClicked.InvokeAsync();
@@ -71,6 +87,9 @@
 
     private async Task AddCloth()
     {
+        // filesService.Errors.Clear();
+        string relativePath = await filesService.CaptureFile(_file);
+        NewCloth.ImagePath = relativePath;
         await wardrobeService.AddCloth(NewCloth);
         await OnClothAdd.InvokeAsync();
         CloseDialog();

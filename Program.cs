@@ -11,6 +11,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddScoped<IWardrobeService, WardrobeService>();
+builder.Services.AddScoped<IFilesService, FilesService>();
 
 var app = builder.Build();
 
